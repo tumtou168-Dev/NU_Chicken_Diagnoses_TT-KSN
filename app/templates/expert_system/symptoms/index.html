@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+{% block title %}Symptoms{% endblock %}
+
+{% block content %}
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4 class="mb-0">Symptoms</h4>
+            <small class="text-muted">Maintain the symptom library</small>
+        </div>
+        <a href="{{ url_for('expert_system.symptoms_create') }}" class="btn btn-brand">Add Symptom</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover border-top">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for symptom in symptoms %}
+                <tr>
+                    <td class="fw-semibold">{{ symptom.name }}</td>
+                    <td class="text-muted">{{ symptom.description }}</td>
+                    <td class="text-end">
+                        <a href="{{ url_for('expert_system.symptoms_edit', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{{ url_for('expert_system.symptoms_delete', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

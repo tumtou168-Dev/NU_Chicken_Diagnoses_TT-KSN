@@ -1,0 +1,151 @@
+# app/services/expert_system_service.py
+from typing import List, Optional
+from extensions import db
+from app.models.expert_system import Category, Symptom, Disease, Rule, Case
+
+
+class CategoryService:
+    @staticmethod
+    def get_all() -> List[Category]:
+        return Category.query.order_by(Category.name.asc()).all()
+
+    @staticmethod
+    def get_by_id(category_id: int) -> Optional[Category]:
+        return Category.query.get(category_id)
+
+    @staticmethod
+    def create(data: dict) -> Category:
+        category = Category(
+            name=data["name"],
+            description=data.get("description") or "",
+        )
+        db.session.add(category)
+        db.session.commit()
+        return category
+
+    @staticmethod
+    def update(category: Category, data: dict) -> Category:
+        category.name = data["name"]
+        category.description = data.get("description") or ""
+        db.session.commit()
+        return category
+
+    @staticmethod
+    def delete(category: Category) -> None:
+        db.session.delete(category)
+        db.session.commit()
+
+
+class SymptomService:
+    @staticmethod
+    def get_all() -> List[Symptom]:
+        return Symptom.query.order_by(Symptom.name.asc()).all()
+
+    @staticmethod
+    def get_by_id(symptom_id: int) -> Optional[Symptom]:
+        return Symptom.query.get(symptom_id)
+
+    @staticmethod
+    def create(data: dict) -> Symptom:
+        symptom = Symptom(
+            name=data["name"],
+            description=data.get("description") or "",
+        )
+        db.session.add(symptom)
+        db.session.commit()
+        return symptom
+
+    @staticmethod
+    def update(symptom: Symptom, data: dict) -> Symptom:
+        symptom.name = data["name"]
+        symptom.description = data.get("description") or ""
+        db.session.commit()
+        return symptom
+
+    @staticmethod
+    def delete(symptom: Symptom) -> None:
+        db.session.delete(symptom)
+        db.session.commit()
+
+
+class DiseaseService:
+    @staticmethod
+    def get_all() -> List[Disease]:
+        return Disease.query.order_by(Disease.name.asc()).all()
+
+    @staticmethod
+    def get_by_id(disease_id: int) -> Optional[Disease]:
+        return Disease.query.get(disease_id)
+
+    @staticmethod
+    def create(data: dict) -> Disease:
+        disease = Disease(
+            name=data["name"],
+            description=data["description"],
+            treatment=data["treatment"],
+            category_id=data.get("category_id") or None,
+        )
+        db.session.add(disease)
+        db.session.commit()
+        return disease
+
+    @staticmethod
+    def update(disease: Disease, data: dict) -> Disease:
+        disease.name = data["name"]
+        disease.description = data["description"]
+        disease.treatment = data["treatment"]
+        disease.category_id = data.get("category_id") or None
+        db.session.commit()
+        return disease
+
+    @staticmethod
+    def delete(disease: Disease) -> None:
+        db.session.delete(disease)
+        db.session.commit()
+
+
+class RuleService:
+    @staticmethod
+    def get_all() -> List[Rule]:
+        return Rule.query.order_by(Rule.priority.asc(), Rule.id.asc()).all()
+
+    @staticmethod
+    def get_by_id(rule_id: int) -> Optional[Rule]:
+        return Rule.query.get(rule_id)
+
+    @staticmethod
+    def create(data: dict, symptom_ids: List[int]) -> Rule:
+        rule = Rule(
+            title=data["title"],
+            description=data["description"],
+            priority=data["priority"],
+            confidence=data["confidence"],
+            disease_id=data["disease_id"],
+        )
+        if symptom_ids:
+            rule.symptoms = Symptom.query.filter(Symptom.id.in_(symptom_ids)).all()
+        db.session.add(rule)
+        db.session.commit()
+        return rule
+
+    @staticmethod
+    def update(rule: Rule, data: dict, symptom_ids: List[int]) -> Rule:
+        rule.title = data["title"]
+        rule.description = data["description"]
+        rule.priority = data["priority"]
+        rule.confidence = data["confidence"]
+        rule.disease_id = data["disease_id"]
+        rule.symptoms = Symptom.query.filter(Symptom.id.in_(symptom_ids)).all()
+        db.session.commit()
+        return rule
+
+    @staticmethod
+    def delete(rule: Rule) -> None:
+        db.session.delete(rule)
+        db.session.commit()
+
+
+class CaseService:
+    @staticmethod
+    def get_all() -> List[Case]:
+        return Case.query.order_by(Case.created_at.desc()).all()

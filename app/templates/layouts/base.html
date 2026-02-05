@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Chicken Expert System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f7f6;
+            --ink: #13212a;
+            --muted: #5c6f7a;
+            --brand: #1f6f78;
+            --brand-soft: #d7ece9;
+            --panel: #ffffff;
+            --line: #dfe6ea;
+            --shadow: 0 10px 30px rgba(19, 33, 42, 0.08);
+        }
+        body {
+            font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(1200px 600px at 10% -10%, #e7f3f1 0%, rgba(231,243,241,0) 60%),
+                radial-gradient(900px 500px at 100% 0%, #f2f6f5 0%, rgba(242,246,245,0) 55%),
+                var(--bg);
+            color: var(--ink);
+        }
+        h1, h2, h3, h4, h5, .brand-title {
+            font-family: "Merriweather", "Times New Roman", serif;
+            letter-spacing: 0.2px;
+        }
+        .app-shell {
+            min-height: 100vh;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #16333a 0%, #0f252b 100%);
+            color: #e7f1f3;
+            padding: 28px 18px;
+            border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .brand {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+        }
+        .brand-title {
+            font-size: 1.05rem;
+            margin: 0;
+            color: #f1f7f8;
+        }
+        .brand-sub {
+            font-size: 0.85rem;
+            color: #b7c9d0;
+            margin: 4px 0 0 0;
+        }
+        .nav-link {
+            color: #c5d5db;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff;
+            background: rgba(255,255,255,0.12);
+            transform: translateX(2px);
+        }
+        .content-area {
+            padding: 28px 36px;
+        }
+        .page-header {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease both;
+        }
+        .card {
+            border: 1px solid var(--line);
+            background: var(--panel);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        .badge-soft {
+            background: var(--brand-soft);
+            color: var(--brand);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .btn-brand {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #fff;
+        }
+        .btn-brand:hover {
+            background: #175a61;
+            border-color: #175a61;
+            color: #fff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 991.98px) {
+            .content-area { padding: 22px; }
+            .sidebar { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid app-shell">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky">
+                    <div class="brand">
+                        <p class="brand-title">Chicken Disease Expert</p>
+                        <p class="brand-sub">Clinical decision support</p>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                    <div class="text-uppercase small text-muted px-2 mb-2">Administration</div>
+                    <ul class="nav flex-column mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('tbl_users.index') }}">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('tbl_roles.index') }}">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('tbl_permissions.index') }}">Permissions</a>
+                        </li>
+                    </ul>
+
+                    <div class="text-uppercase small text-muted px-2 mb-2">Expert System</div>
+                    <ul class="nav flex-column mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.rules_index') }}">Knowledge Base</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.symptoms_index') }}">Symptoms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.diseases_index') }}">Diseases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.categories_index') }}">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.cases_index') }}">Case History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('expert_system.diagnose') }}">Run Diagnosis</a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 content-area">
+                <div class="page-header">
+                    <span class="badge-soft">Trusted clinical workflow</span>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

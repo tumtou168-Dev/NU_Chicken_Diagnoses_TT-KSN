@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h4 mb-0">System Onboarding</h2>
+            <p class="text-muted small">Manage system participants and assign roles</p>
+        </div>
+        {% if current_user.has_permission('USER_CREATE') %}
+        <a href="{{ url_for('tbl_users.create') }}" class="btn btn-primary d-flex align-items-center">
+            <span class="me-2">+</span> Add New Member
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover border-top">
+            <thead class="table-light">
+                <tr>
+                    <th>User Profile</th>
+                    <th>System Role</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded-circle p-2 me-3 text-primary fw-bold" style="width: 40px; height: 40px; text-align: center;">
+                                {{ user.username[0] | upper }}
+                            </div>
+                            <div>
+                                <div class="fw-bold text-dark">{{ user.full_name }}</div>
+                                <div class="text-muted small">{{ user.email }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-info-subtle text-info border border-info-subtle">{{ user.roles[0].name if user.roles else 'Guest' }}</span></td>
+                    <td>
+                        {% if user.is_active %}
+                        <span class="text-success small">● Active</span>
+                        {% else %}
+                        <span class="text-secondary small">○ Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('tbl_users.edit', user_id=user.id) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

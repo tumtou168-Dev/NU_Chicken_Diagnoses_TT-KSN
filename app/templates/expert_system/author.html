@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3">
+        <h5 class="mb-0 fw-bold">Knowledge Base: Rules & Facts</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Rule ID</th>
+                        <th>If (Symptoms)</th>
+                        <th>Then (Disease)</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rule in rules %}
+                    <tr>
+                        <td><span class="badge bg-secondary">#{{ rule.id }}</span></td>
+                        <td>
+                            {% for s in rule.symptoms %}
+                            <span class="badge bg-warning text-dark">{{ s.name }}</span>
+                            {% endfor %}
+                        </td>
+                        <td><span class="badge bg-danger">{{ rule.disease.name }}</span></td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">Edit</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
