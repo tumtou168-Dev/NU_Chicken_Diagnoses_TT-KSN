@@ -149,3 +149,11 @@ class CaseService:
     @staticmethod
     def get_all() -> List[Case]:
         return Case.query.order_by(Case.created_at.desc()).all()
+
+    @staticmethod
+    def get_by_user(user_id: int) -> List[Case]:
+        return Case.query.filter_by(user_id=user_id).order_by(Case.created_at.desc()).all()
+
+    @staticmethod
+    def get_by_id(case_id: int) -> Optional[Case]:
+        return Case.query.get(case_id)

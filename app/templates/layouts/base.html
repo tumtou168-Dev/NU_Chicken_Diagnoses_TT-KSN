@@ -3,188 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} - Chicken Expert System</title>
+    <title>{% block title %}Dashboard{% endblock %} - Chicken Expert System</title>
+
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Inter for UI, Merriweather for headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #f4f7f6;
-            --ink: #13212a;
-            --muted: #5c6f7a;
-            --brand: #1f6f78;
-            --brand-soft: #d7ece9;
-            --panel: #ffffff;
-            --line: #dfe6ea;
-            --shadow: 0 10px 30px rgba(19, 33, 42, 0.08);
+            --bg-body: #f3f4f6;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary-color: #2563eb; /* A slightly softer blue */
+            --primary-hover: #1d4ed8;
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #374151;
+            --sidebar-active-bg: #eff6ff;
+            --sidebar-active-text: #2563eb;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 0.75rem;
         }
+
         body {
-            font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
-            background:
-                radial-gradient(1200px 600px at 10% -10%, #e7f3f1 0%, rgba(231,243,241,0) 60%),
-                radial-gradient(900px 500px at 100% 0%, #f2f6f5 0%, rgba(242,246,245,0) 55%),
-                var(--bg);
-            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
-        h1, h2, h3, h4, h5, .brand-title {
-            font-family: "Merriweather", "Times New Roman", serif;
-            letter-spacing: 0.2px;
+
+        h1, h2, h3, h4, h5, .brand-font {
+            font-family: 'Merriweather', serif;
+            color: #111827;
         }
-        .app-shell {
-            min-height: 100vh;
-        }
+
+        /* Sidebar Styling */
         .sidebar {
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #e5e7eb;
             min-height: 100vh;
-            background: linear-gradient(180deg, #16333a 0%, #0f252b 100%);
-            color: #e7f1f3;
-            padding: 28px 18px;
-            border-right: 1px solid rgba(255,255,255,0.06);
+            padding: 1.5rem;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.02);
         }
-        .brand {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 18px;
+
+        .brand-section {
+            padding-bottom: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            text-align: center;
         }
-        .brand-title {
-            font-size: 1.05rem;
-            margin: 0;
-            color: #f1f7f8;
+
+        .brand-logo {
+            max-width: 100%;
+            height: auto;
+            max-height: 80px;
+            margin-bottom: 0.5rem;
         }
-        .brand-sub {
-            font-size: 0.85rem;
-            color: #b7c9d0;
-            margin: 4px 0 0 0;
-        }
-        .nav-link {
-            color: #c5d5db;
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 6px;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #ffffff;
-            background: rgba(255,255,255,0.12);
-            transform: translateX(2px);
-        }
-        .content-area {
-            padding: 28px 36px;
-        }
-        .page-header {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 18px 22px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-            animation: fadeIn 0.5s ease both;
-        }
-        .card {
-            border: 1px solid var(--line);
-            background: var(--panel);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-        }
-        .badge-soft {
-            background: var(--brand-soft);
-            color: var(--brand);
-            border-radius: 999px;
-            padding: 4px 10px;
+
+        .nav-section-label {
+            font-size: 0.75rem;
             font-weight: 600;
-            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #9ca3af;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
         }
-        .btn-brand {
-            background: var(--brand);
-            border-color: var(--brand);
-            color: #fff;
+
+        .nav-link {
+            color: var(--sidebar-text);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
         }
-        .btn-brand:hover {
-            background: #175a61;
-            border-color: #175a61;
-            color: #fff;
+
+        .nav-link i {
+            font-size: 1.25rem;
+            margin-right: 0.75rem;
+            color: #9ca3af;
+            transition: color 0.2s;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .nav-link:hover {
+            background-color: #f9fafb;
+            color: #111827;
         }
-        @media (max-width: 991.98px) {
-            .content-area { padding: 22px; }
-            .sidebar { min-height: auto; }
+
+        .nav-link:hover i {
+            color: #4b5563;
+        }
+
+        .nav-link.active {
+            background-color: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+        }
+
+        .nav-link.active i {
+            color: var(--sidebar-active-text);
+        }
+
+        /* Main Content Area */
+        .content-wrapper {
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Card & UI Elements */
+        .card {
+            background: white;
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid #f3f4f6;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        /* Mobile Sidebar Toggle */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 1050;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .content-wrapper {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid app-shell">
+    <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky">
-                    <div class="brand">
-                        <p class="brand-title">Chicken Disease Expert</p>
-                        <p class="brand-sub">Clinical decision support</p>
-                    </div>
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse" id="sidebarMenu">
+                <div class="brand-section">
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="VetAssist Logo" class="brand-logo">
+                    <h5 class="brand-font fw-bold mb-0">VetAssist</h5>
+                    <small class="text-muted">Chicken Diagnosis</small>
+                </div>
+
+                <div class="position-sticky pt-2">
                     {% if current_user.is_authenticated %}
-                    <div class="text-uppercase small text-muted px-2 mb-2">Administration</div>
-                    <ul class="nav flex-column mb-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('tbl_users.index') }}">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('tbl_roles.index') }}">Roles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('tbl_permissions.index') }}">Permissions</a>
-                        </li>
-                    </ul>
+                        <div class="nav-section-label">Main</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.diagnose' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.diagnose') }}">
+                                    <i class="bi bi-activity"></i>
+                                    Run Diagnosis
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.cases' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.cases_index') }}">
+                                    <i class="bi bi-clock-history"></i> History
+                                </a>
+                            </li>
+                        </ul>
 
-                    <div class="text-uppercase small text-muted px-2 mb-2">Expert System</div>
-                    <ul class="nav flex-column mb-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.rules_index') }}">Knowledge Base</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.symptoms_index') }}">Symptoms</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.diseases_index') }}">Diseases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.categories_index') }}">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.cases_index') }}">Case History</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('expert_system.diagnose') }}">Run Diagnosis</a>
-                        </li>
-                    </ul>
+                        {% if current_user.has_role('Admin') or current_user.has_role('Doctor') %}
+                        <div class="nav-section-label">Knowledge Base</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.rules' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.rules_index') }}">
+                                    <i class="bi bi-diagram-3"></i> Rules
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.symptoms' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.symptoms_index') }}">
+                                    <i class="bi bi-thermometer-half"></i> Symptoms
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.diseases' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.diseases_index') }}">
+                                    <i class="bi bi-virus"></i> Diseases
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'expert_system.categories' in request.endpoint %}active{% endif %}" href="{{ url_for('expert_system.categories_index') }}">
+                                    <i class="bi bi-tags"></i> Categories
+                                </a>
+                            </li>
+                        </ul>
+                        {% endif %}
 
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
-                        </li>
-                    </ul>
+                        {% if current_user.has_role('Admin') %}
+                        <div class="nav-section-label">System</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'tbl_users' in request.endpoint %}active{% endif %}" href="{{ url_for('tbl_users.index') }}">
+                                    <i class="bi bi-people"></i> Users
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'tbl_roles' in request.endpoint %}active{% endif %}" href="{{ url_for('tbl_roles.index') }}">
+                                    <i class="bi bi-shield-lock"></i> Roles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'tbl_permissions' in request.endpoint %}active{% endif %}" href="{{ url_for('tbl_permissions.index') }}">
+                                    <i class="bi bi-key"></i> Permissions
+                                </a>
+                            </li>
+                        </ul>
+                        {% endif %}
+
+                        <div class="nav-section-label">Account</div>
+                        <ul class="nav flex-column mb-4">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">
+                                    <i class="bi bi-box-arrow-right text-danger"></i> Sign Out
+                                </a>
+                            </li>
+                        </ul>
                     {% else %}
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-                        </li>
-                    </ul>
+                        <div class="nav-section-label">Access</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'auth.login' in request.endpoint %}active{% endif %}" href="{{ url_for('auth.login') }}">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if 'auth.register' in request.endpoint %}active{% endif %}" href="{{ url_for('auth.register') }}">
+                                    <i class="bi bi-person-plus"></i> Register
+                                </a>
+                            </li>
+                        </ul>
                     {% endif %}
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 content-area">
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 content-wrapper">
                 <div class="page-header">
-                    <span class="badge-soft">Trusted clinical workflow</span>
+                    <div>
+                        <h2 class="h3 fw-bold mb-1">{% block page_title %}{% endblock %}</h2>
+                        <p class="text-muted mb-0">{% block page_subtitle %}{% endblock %}</p>
+                    </div>
+
+                    {% if current_user.is_authenticated %}
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            {{ current_user.username[0] | upper }}
+                        </div>
+                        <div class="d-none d-sm-block">
+                            <div class="fw-bold small">{{ current_user.full_name }}</div>
+                            <div class="text-muted" style="font-size: 0.7rem;">{{ current_user.roles[0].name if current_user.roles else 'User' }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
+
                 {% with messages = get_flashed_messages(with_categories=true) %}
                   {% if messages %}
                     {% for category, message in messages %}
-                      <div class="alert alert-{{ category }}">{{ message }}</div>
+                      <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm border-0" role="alert">
+                        <div class="d-flex align-items-center">
+                            {% if category == 'success' %}
+                                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+                            {% elif category == 'danger' %}
+                                <i class="bi bi-exclamation-circle-fill me-2 fs-5"></i>
+                            {% elif category == 'warning' %}
+                                <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                            {% else %}
+                                <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                            {% endif %}
+                            <div>{{ message }}</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
                     {% endfor %}
                   {% endif %}
                 {% endwith %}
@@ -193,5 +340,7 @@
             </main>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

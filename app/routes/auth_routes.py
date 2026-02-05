@@ -22,8 +22,12 @@ def login():
             
             login_user(user)
             flash("Logged in successfully.", "success")
-            # ✅ FIX: go to tbl_users.index (not index_user)
-            return redirect(url_for("tbl_users.index"))
+            
+            # Redirect based on role
+            if user.has_role("Admin") or user.has_role("Doctor"):
+                return redirect(url_for("tbl_users.index"))
+            else:
+                return redirect(url_for("expert_system.diagnose"))
         
         flash("Invalid username or password.", "danger")
         return redirect(url_for("auth.login"))
@@ -86,8 +90,12 @@ def register():
         
         login_user(new_user)
         flash("Account created successfully. You are now logged in.", "success")
-        # ✅ FIX: go to tbl_users.index (not index_user)
-        return redirect(url_for("tbl_users.index"))
+        
+        # Redirect based on role (new users are typically 'User' role)
+        if new_user.has_role("Admin") or new_user.has_role("Doctor"):
+            return redirect(url_for("tbl_users.index"))
+        else:
+            return redirect(url_for("expert_system.diagnose"))
     
     return render_template("auth/register.html")
 

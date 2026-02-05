@@ -60,7 +60,7 @@ def seed_permissions_and_roles():
             "view_cases",
         }
     ]
-    user_role.permissions = [p for p in perm_objs if p.code == "run_diagnosis"]
+    user_role.permissions = [p for p in perm_objs if p.code in {"run_diagnosis", "view_cases"}]
 
     db.session.commit()
 

@@ -1,28 +1,55 @@
 {% extends "layouts/base.html" %}
+
 {% block title %}Edit Symptom{% endblock %}
+{% block page_title %}Edit Symptom{% endblock %}
+{% block page_subtitle %}Update the details of an existing symptom.{% endblock %}
 
 {% block content %}
-<div class="card p-4">
-    <h4 class="mb-3">Edit Symptom</h4>
-    <form method="post">
-        {{ form.hidden_tag() }}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
         <div class="mb-3">
-            {{ form.name.label(class="form-label") }}
-            {{ form.name(class="form-control") }}
-            {% if form.name.errors %}
-            <div class="text-danger small">
-                {% for error in form.name.errors %}<div>{{ error }}</div>{% endfor %}
+            <a href="{{ url_for('expert_system.symptoms_index') }}" class="text-decoration-none text-muted">
+                <i class="bi bi-arrow-left me-1"></i> Back to Library
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-4 text-center">
+                        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                            <i class="bi bi-pencil fs-3"></i>
+                        </div>
+                        <h4 class="fw-bold">Update Details</h4>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        {{ form.name(class="form-control", placeholder="e.g., Coughing") }}
+                        {{ form.name.label }}
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1">{{ form.name.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        {{ form.description(class="form-control", placeholder="Description", style="height: 100px") }}
+                        {{ form.description.label }}
+                        {% if form.description.errors %}
+                            <div class="text-danger small mt-1">{{ form.description.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary py-2 fw-bold">
+                            <i class="bi bi-check-lg me-2"></i>Update Symptom
+                        </button>
+                        <a href="{{ url_for('expert_system.symptoms_index') }}" class="btn btn-light py-2">Cancel</a>
+                    </div>
+                </form>
             </div>
-            {% endif %}
         </div>
-        <div class="mb-3">
-            {{ form.description.label(class="form-label") }}
-            {{ form.description(class="form-control", rows=3) }}
-        </div>
-        <div class="d-flex gap-2">
-            {{ form.submit(class="btn btn-brand") }}
-            <a href="{{ url_for('expert_system.symptoms_index') }}" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

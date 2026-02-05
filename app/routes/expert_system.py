@@ -60,8 +60,30 @@ def diagnose():
 @login_required
 @require_permission("view_cases")
 def cases_index():
-    cases = CaseService.get_all()
+    # If user is Admin or Doctor, show all cases
+    if current_user.has_role("Admin") or current_user.has_role("Doctor"):
+        cases = CaseService.get_all()
+    else:
+        # Otherwise, show only their own cases
+        cases = CaseService.get_by_user(current_user.id)
+        
     return render_template("expert_system/cases/index.html", cases=cases)
+
+
+@expert_system_bp.route("/cases/<int:case_id>")
+@login_required
+@require_permission("view_cases")
+def cases_detail(case_id: int):
+    case = CaseService.get_by_id(case_id)
+    if case is None:
+        abort(404)
+        
+    # Security check: User can only view their own case unless they are Admin/Doctor
+    if not (current_user.has_role("Admin") or current_user.has_role("Doctor")):
+        if case.user_id != current_user.id:
+            abort(403)
+            
+    return render_template("expert_system/cases/detail.html", case=case)
 
 
 @expert_system_bp.route("/categories")
