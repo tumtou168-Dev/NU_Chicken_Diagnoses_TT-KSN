@@ -7,7 +7,7 @@ from app.models.associations import tbl_cases_symptoms, tbl_rules_symptoms
 class Category(db.Model):
     __tablename__ = "tbl_categories"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_categories_id'), primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
@@ -21,7 +21,7 @@ class Category(db.Model):
 class Symptom(db.Model):
     __tablename__ = "tbl_symptoms"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_symptoms_id'), primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
@@ -44,7 +44,7 @@ class Symptom(db.Model):
 class Disease(db.Model):
     __tablename__ = "tbl_diseases"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_diseases_id'), primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
     treatment = db.Column(db.String(255), nullable=False)
@@ -62,7 +62,7 @@ class Disease(db.Model):
 class Rule(db.Model):
     __tablename__ = "tbl_rules"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_rules_id'), primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     priority = db.Column(db.Integer, nullable=False, default=1)
@@ -84,7 +84,7 @@ class Rule(db.Model):
 class Case(db.Model):
     __tablename__ = "tbl_cases"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_cases_id'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("tbl_users.id"))
     disease_id = db.Column(db.Integer, db.ForeignKey("tbl_diseases.id"))
     confidence = db.Column(db.Float)

@@ -1,4 +1,5 @@
 # app/__init__.py
+import os
 import sys
 from flask import Flask, redirect, url_for
 from config import Config
@@ -54,6 +55,11 @@ def create_app(config_class: type[Config] = Config):
         from app.models.role import RoleTable
         from app.models.permission import PermissionTable
         from app.models.expert_system import Category, Symptom, Disease, Rule, Case
+
+        # Default RESET_DB to 1 to ensure schema is updated (sequences created)
+        if os.environ.get("RESET_DB", "1") == "1":
+            db.drop_all()
+
         db.create_all()
         from app.services.seed_service import seed_all
         seed_all()

@@ -9,7 +9,7 @@ from app.models.associations import tbl_user_roles
 class UserTable(UserMixin, db.Model):
     __tablename__ = "tbl_users"
     
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_users_id'), primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     full_name = db.Column(db.String(120), nullable=False)

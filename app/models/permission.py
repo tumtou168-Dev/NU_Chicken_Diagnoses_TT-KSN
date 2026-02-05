@@ -7,7 +7,7 @@ from app.models.associations import tbl_role_permissions
 class PermissionTable(db.Model):
     __tablename__ = "tbl_permissions"
     
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, db.Sequence('seq_permissions_id'), primary_key=True)
     code = db.Column(db.String(64), unique=True, nullable=False, index=True)
     name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(255))
