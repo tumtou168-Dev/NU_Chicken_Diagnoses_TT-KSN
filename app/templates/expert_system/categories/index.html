@@ -1,23 +1,23 @@
 {% extends "layouts/base.html" %}
-{% block title %}Categories{% endblock %}
+{% block title %}ប្រភេទ{% endblock %}
 
 {% block content %}
 <div class="card p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h4 class="mb-0">Categories</h4>
-            <small class="text-muted">Group diseases by clinical focus</small>
+            <h4 class="mb-0">ប្រភេទ</h4>
+            <small class="text-muted">ដាក់ក្រុមជំងឺតាមការផ្តោតអារម្មណ៍គ្លីនិក</small>
         </div>
-        <a href="{{ url_for('expert_system.categories_create') }}" class="btn btn-brand">Add Category</a>
+        <a href="{{ url_for('expert_system.categories_create') }}" class="btn btn-brand">បន្ថែមប្រភេទ</a>
     </div>
 
     <div class="table-responsive">
         <table class="table table-hover border-top">
             <thead class="table-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th class="text-end">Actions</th>
+                    <th>ឈ្មោះ</th>
+                    <th>ការពិពណ៌នា</th>
+                    <th class="text-end">សកម្មភាព</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +26,8 @@
                     <td class="fw-semibold">{{ category.name }}</td>
                     <td class="text-muted">{{ category.description }}</td>
                     <td class="text-end">
-                        <a href="{{ url_for('expert_system.categories_edit', category_id=category.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                        <a href="{{ url_for('expert_system.categories_delete', category_id=category.id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a href="{{ url_for('expert_system.categories_edit', category_id=category.id) }}" class="btn btn-sm btn-outline-secondary">កែប្រែ</a>
+                        <a href="{{ url_for('expert_system.categories_delete', category_id=category.id) }}" class="btn btn-sm btn-outline-danger">លុប</a>
                     </td>
                 </tr>
                 {% endfor %}

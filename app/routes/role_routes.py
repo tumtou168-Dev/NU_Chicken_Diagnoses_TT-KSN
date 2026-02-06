@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from flask_login import login_required
 from app.forms.role_forms import (RoleCreateForm, RoleEditForm, RoleConfirmDeleteForm)
 from app.services.role_service import RoleService
+from app.services.audit_service import AuditService
 
 role_bp = Blueprint("tbl_roles", __name__, url_prefix="/roles")
 
@@ -32,6 +33,7 @@ def create():
         permission_ids = form.permission_ids.data or []
         
         role = RoleService.create_role(data, permission_ids)
+        AuditService.log("CREATE", "Role", role.id, f"Created role: {role.name}")
         flash(f"Role '{role.name}' was created successfully.", "success")
         return redirect(url_for("tbl_roles.index"))
     
@@ -54,6 +56,7 @@ def edit(role_id: int):
         permission_ids = form.permission_ids.data or []
         
         RoleService.update_role(role, data, permission_ids)
+        AuditService.log("UPDATE", "Role", role.id, f"Updated role: {role.name}")
         flash(f"Role '{role.name}' was updated successfully.", "success")
         return redirect(url_for("tbl_roles.detail", role_id=role.id))
     
@@ -76,6 +79,8 @@ def delete(role_id: int):
     if role is None:
         abort(404)
         
+    role_name = role.name
     RoleService.delete_role(role)
+    AuditService.log("DELETE", "Role", role_id, f"Deleted role: {role_name}")
     flash("Role was deleted successfully.", "success")
     return redirect(url_for("tbl_roles.index"))

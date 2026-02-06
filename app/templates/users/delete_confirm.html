@@ -1,16 +1,16 @@
 {% extends "layouts/base.html" %}
-{% block title %}Delete User{% endblock %}
+{% block title %}លុបអ្នកប្រើប្រាស់{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card border-danger">
             <div class="card-header bg-danger text-white">
-                <h5 class="mb-0">Confirm Delete</h5>
+                <h5 class="mb-0">បញ្ជាក់ការលុប</h5>
             </div>
             <div class="card-body">
                 <p>
-                    Are you sure want to delete user
+                    តើអ្នកប្រាកដថាចង់លុបអ្នកប្រើប្រាស់
                     <strong>{{ user.username }}</strong>({{ user.full_name}})?
                 </p>
 
@@ -19,13 +19,13 @@
                     {{ form.hidden_tag()}}
 
                     <button class="btn btn-danger">
-                        Delete
+                        លុប
                     </button>
                     
                     {# You can send them back to detail or index #}
                     <a href="{{ url_for('tbl_users.detail', user_id=user.id) }}" 
                     class="btn btn-secondary">
-                    Cancel
+                    បោះបង់
                     </a>
                 </form>
             </div>

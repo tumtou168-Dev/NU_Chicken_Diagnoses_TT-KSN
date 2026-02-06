@@ -1,25 +1,25 @@
 {% extends "layouts/base.html" %}
-{% block title %}Rules{% endblock %}
+{% block title %}វិធាន{% endblock %}
 
 {% block content %}
 <div class="card p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h4 class="mb-0">Rules</h4>
-            <small class="text-muted">Map symptoms to diseases</small>
+            <h4 class="mb-0">វិធាន</h4>
+            <small class="text-muted">ផ្គូផ្គងរោគសញ្ញាទៅនឹងជំងឺ</small>
         </div>
-        <a href="{{ url_for('expert_system.rules_create') }}" class="btn btn-brand">Add Rule</a>
+        <a href="{{ url_for('expert_system.rules_create') }}" class="btn btn-brand">បន្ថែមវិធាន</a>
     </div>
 
     <div class="table-responsive">
         <table class="table table-hover border-top">
             <thead class="table-light">
                 <tr>
-                    <th>Title</th>
-                    <th>Symptoms</th>
-                    <th>Disease</th>
-                    <th>Confidence</th>
-                    <th class="text-end">Actions</th>
+                    <th>ចំណងជើង</th>
+                    <th>រោគសញ្ញា</th>
+                    <th>ជំងឺ</th>
+                    <th>ទំនុកចិត្ត</th>
+                    <th class="text-end">សកម្មភាព</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,8 +34,8 @@
                     <td><span class="badge bg-danger">{{ rule.disease.name }}</span></td>
                     <td>{{ rule.confidence }}%</td>
                     <td class="text-end">
-                        <a href="{{ url_for('expert_system.rules_edit', rule_id=rule.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                        <a href="{{ url_for('expert_system.rules_delete', rule_id=rule.id) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a href="{{ url_for('expert_system.rules_edit', rule_id=rule.id) }}" class="btn btn-sm btn-outline-secondary">កែប្រែ</a>
+                        <a href="{{ url_for('expert_system.rules_delete', rule_id=rule.id) }}" class="btn btn-sm btn-outline-danger">លុប</a>
                     </td>
                 </tr>
                 {% endfor %}

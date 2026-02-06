@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}ចូលប្រើប្រាស់{% endblock %}
 
 {% block sidebar %}
 <!-- Sidebar removed for login page -->
@@ -20,8 +20,8 @@
                 <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
                     <i class="bi bi-person-circle fs-2"></i>
                 </div>
-                <h2 class="fw-bold">Welcome Back</h2>
-                <p class="text-muted">Please enter your details to sign in.</p>
+                <h2 class="fw-bold">សូមស្វាគមន៍</h2>
+                <p class="text-muted">សូមបញ្ចូលព័ត៌មានរបស់អ្នកដើម្បីចូលប្រើប្រាស់។</p>
             </div>
 
             <div class="card shadow-lg border-0">
@@ -30,16 +30,16 @@
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                         <div class="mb-3">
-                            <label for="username" class="form-label small text-muted fw-bold text-uppercase">Username</label>
+                            <label for="username" class="form-label small text-muted fw-bold text-uppercase">ឈ្មោះអ្នកប្រើប្រាស់</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                                <input type="text" class="form-control bg-light border-start-0 ps-0" id="username" name="username" placeholder="Enter your username" required autofocus>
+                                <input type="text" class="form-control bg-light border-start-0 ps-0" id="username" name="username" placeholder="បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់" required autofocus>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <label for="password" class="form-label small text-muted fw-bold text-uppercase">Password</label>
+                                <label for="password" class="form-label small text-muted fw-bold text-uppercase">ពាក្យសម្ងាត់</label>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
@@ -48,13 +48,13 @@
                         </div>
 
                         <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary py-2 fw-bold">Sign In</button>
+                            <button type="submit" class="btn btn-primary py-2 fw-bold">ចូល</button>
                         </div>
                     </form>
                 </div>
                 <div class="card-footer bg-white border-0 text-center py-3">
                     <p class="mb-0 text-muted small">
-                        Don't have an account? <a href="{{ url_for('auth.register') }}" class="text-primary text-decoration-none fw-bold">Create one</a>
+                        មិនទាន់មានគណនី? <a href="{{ url_for('auth.register') }}" class="text-primary text-decoration-none fw-bold">បង្កើតគណនី</a>
                     </p>
                 </div>
             </div>

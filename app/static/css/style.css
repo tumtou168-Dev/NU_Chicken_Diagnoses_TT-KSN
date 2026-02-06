@@ -1,12 +1,199 @@
+:root {
+    --bg-body: #f3f4f6;
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    --primary-color: #2563eb; /* A slightly softer blue */
+    --primary-hover: #1d4ed8;
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #374151;
+    --sidebar-active-bg: #eff6ff;
+    --sidebar-active-text: #2563eb;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --border-radius: 0.75rem;
+}
+
 body {
-  background-color: #f5f5f5;
+    font-family: 'Noto Sans Khmer', 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
 }
 
-main.container {
-  max-width: 960px;
+h1, h2, h3, h4, h5, .brand-font {
+    font-family: 'Noto Sans Khmer', 'Merriweather', serif;
+    color: #111827;
 }
 
-.table td,
-.table th {
-  vertical-align: middle;
+/* Sidebar Styling */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid #e5e7eb;
+    min-height: 100vh;
+    padding: 1.5rem;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.02);
+}
+
+.brand-section {
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    text-align: center;
+}
+
+.brand-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
+    margin-bottom: 0.5rem;
+}
+
+.nav-section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-left: 0.75rem;
+}
+
+.nav-link {
+    color: var(--sidebar-text);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.nav-link i {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+.nav-link:hover i {
+    color: #4b5563;
+}
+
+.nav-link.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+}
+
+.nav-link.active i {
+    color: var(--sidebar-active-text);
+}
+
+/* Main Content Area */
+.content-wrapper {
+    padding: 2rem;
+}
+
+.page-header {
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+}
+
+.user-profile:hover {
+    background-color: #f9fafb;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Card & UI Elements */
+.card {
+    background: white;
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 1.25rem 1.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+/* Mobile Sidebar Toggle */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+/* Custom styles for the symptom checkboxes */
+.btn-check:checked + .btn-outline-light {
+    background-color: #eff6ff;
+    border-color: #bfdbfe !important;
+    color: #1e40af !important;
+}
+.btn-check:checked + .btn-outline-light .check-indicator i::before {
+    content: "\f26a"; /* bi-check-circle-fill */
+    color: #2563eb;
+}
+.symptom-card:hover {
+    background-color: #f9fafb;
+    border-color: #e5e7eb !important;
 }

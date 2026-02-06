@@ -1,18 +1,18 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Symptom Management{% endblock %}
-{% block page_title %}Symptom Library{% endblock %}
-{% block page_subtitle %}Manage the symptoms used for diagnosis.{% endblock %}
+{% block title %}ការគ្រប់គ្រងរោគសញ្ញា{% endblock %}
+{% block page_title %}បណ្ណាល័យរោគសញ្ញា{% endblock %}
+{% block page_subtitle %}គ្រប់គ្រងរោគសញ្ញាដែលប្រើសម្រាប់ការធ្វើរោគវិនិច្ឆ័យ។{% endblock %}
 
 {% block content %}
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white py-3 border-bottom">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="mb-0 fw-bold text-muted">
-                <i class="bi bi-thermometer-half me-2"></i>All Symptoms
+                <i class="bi bi-thermometer-half me-2"></i>រោគសញ្ញាទាំងអស់
             </h5>
             <a href="{{ url_for('expert_system.symptoms_create') }}" class="btn btn-primary btn-sm">
-                <i class="bi bi-plus-lg"></i> New Symptom
+                <i class="bi bi-plus-lg"></i> រោគសញ្ញាថ្មី
             </a>
         </div>
     </div>
@@ -27,10 +27,10 @@
                 </div>
                 <div class="ms-4">
                     <div class="btn-group">
-                        <a href="{{ url_for('expert_system.symptoms_edit', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                        <a href="{{ url_for('expert_system.symptoms_edit', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-secondary" title="កែប្រែ">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a href="{{ url_for('expert_system.symptoms_delete', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-danger" title="Delete">
+                        <a href="{{ url_for('expert_system.symptoms_delete', symptom_id=symptom.id) }}" class="btn btn-sm btn-outline-danger" title="លុប">
                             <i class="bi bi-trash"></i>
                         </a>
                     </div>
@@ -40,9 +40,9 @@
         {% else %}
         <div class="text-center py-5">
             <div class="text-muted mb-2"><i class="bi bi-clipboard-x display-4"></i></div>
-            <p class="text-muted mb-3">No symptoms have been added yet.</p>
+            <p class="text-muted mb-3">មិនទាន់មានរោគសញ្ញាត្រូវបានបន្ថែមទេ។</p>
             <a href="{{ url_for('expert_system.symptoms_create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg me-2"></i>Add First Symptom
+                <i class="bi bi-plus-lg me-2"></i>បន្ថែមរោគសញ្ញាដំបូង
             </a>
         </div>
         {% endfor %}

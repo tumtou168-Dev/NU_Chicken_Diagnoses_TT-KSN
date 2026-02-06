@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}កំណត់ហេតុសវនកម្ម{% endblock %}
+{% block page_title %}កំណត់ហេតុសវនកម្ម{% endblock %}
+{% block page_subtitle %}តាមដានសកម្មភាពប្រព័ន្ធ និងការផ្លាស់ប្តូរ។{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-muted">សកម្មភាពថ្មីៗ</h5>
+        <div class="d-flex gap-2">
+            <form method="GET" action="{{ url_for('audit.index') }}" class="d-flex">
+                <input type="text" name="q" class="form-control form-control-sm me-2" placeholder="ស្វែងរកតាមឈ្មោះអ្នកប្រើប្រាស់..." value="{{ search_query or '' }}">
+                <button type="submit" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-search"></i>
+                </button>
+                {% if search_query %}
+                <a href="{{ url_for('audit.index') }}" class="btn btn-outline-secondary btn-sm ms-1" title="Clear Search">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+                {% endif %}
+            </form>
+            <a href="{{ url_for('audit.export', q=search_query) }}" class="btn btn-success btn-sm">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> នាំចេញជា CSV
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">កាលបរិច្ឆេទ</th>
+                    <th>អ្នកប្រើប្រាស់</th>
+                    <th>សកម្មភាព</th>
+                    <th>គោលដៅ</th>
+                    <th>ព័ត៌មានលម្អិត</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td class="ps-4 text-nowrap">
+                        <div class="fw-semibold">{{ log.created_at.strftime('%Y-%m-%d') }}</div>
+                        <div class="small text-muted">{{ log.created_at.strftime('%H:%M:%S') }}</div>
+                    </td>
+                    <td>
+                        {% if log.user %}
+                            <a href="{{ url_for('audit.user_logs', user_id=log.user.id) }}" class="text-decoration-none text-dark">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
+                                        <span class="small fw-bold text-muted">{{ log.user.username[0]|upper }}</span>
+                                    </div>
+                                    <span class="small fw-bold">{{ log.user.username }}</span>
+                                </div>
+                            </a>
+                        {% else %}
+                            <span class="text-muted fst-italic">System/Guest</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if log.action == 'CREATE' %}
+                            <span class="badge bg-success bg-opacity-10 text-success">បង្កើត</span>
+                        {% elif log.action == 'UPDATE' %}
+                            <span class="badge bg-warning bg-opacity-10 text-warning text-dark">កែប្រែ</span>
+                        {% elif log.action == 'DELETE' %}
+                            <span class="badge bg-danger bg-opacity-10 text-danger">លុប</span>
+                        {% elif log.action == 'LOGIN' %}
+                            <span class="badge bg-info bg-opacity-10 text-info text-dark">ចូល</span>
+                        {% else %}
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ log.action }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="fw-medium">{{ log.target_type }}</span>
+                        {% if log.target_id %}
+                            <span class="text-muted small">#{{ log.target_id }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="text-truncate" style="max-width: 300px;" title="{{ log.details }}">
+                            {{ log.details or '-' }}
+                        </div>
+                    </td>
+                    <td class="text-muted small">{{ log.ip_address }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center py-5 text-muted">
+                        <i class="bi bi-journal-text display-6 d-block mb-3"></i>
+                        រកមិនឃើញកំណត់ហេតុទេ។
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

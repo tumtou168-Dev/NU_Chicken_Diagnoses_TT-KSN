@@ -16,6 +16,7 @@ from app.services.expert_system_service import (
     RuleService,
     CaseService,
 )
+from app.services.audit_service import AuditService
 
 expert_system_bp = Blueprint("expert_system", __name__, url_prefix="/expert-system")
 
@@ -40,11 +41,12 @@ def diagnose():
         if selected_ids:
             diagnosis_results = DiagnosisService.run_inference(selected_ids)
             if diagnosis_results:
-                DiagnosisService.record_case(
+                case = DiagnosisService.record_case(
                     current_user.id,
                     selected_ids,
                     diagnosis_results[0],
                 )
+                AuditService.log("DIAGNOSE", "Case", case.id, f"User ran diagnosis, result: {case.disease.name}")
         else:
             flash("Please select at least one symptom.", "warning")
 
@@ -103,6 +105,7 @@ def categories_create():
         category = CategoryService.create(
             {"name": form.name.data, "description": form.description.data}
         )
+        AuditService.log("CREATE", "Category", category.id, f"Created category: {category.name}")
         flash(f"Category '{category.name}' created successfully.", "success")
         return redirect(url_for("expert_system.categories_index"))
     return render_template("expert_system/categories/create.html", form=form)
@@ -121,6 +124,7 @@ def categories_edit(category_id: int):
             category,
             {"name": form.name.data, "description": form.description.data},
         )
+        AuditService.log("UPDATE", "Category", category.id, f"Updated category: {category.name}")
         flash("Category updated successfully.", "success")
         return redirect(url_for("expert_system.categories_index"))
     return render_template(
@@ -138,7 +142,9 @@ def categories_delete(category_id: int):
     if category is None:
         abort(404)
     if request.method == "POST":
+        category_name = category.name
         CategoryService.delete(category)
+        AuditService.log("DELETE", "Category", category_id, f"Deleted category: {category_name}")
         flash("Category deleted successfully.", "success")
         return redirect(url_for("expert_system.categories_index"))
     return render_template(
@@ -164,6 +170,7 @@ def symptoms_create():
         symptom = SymptomService.create(
             {"name": form.name.data, "description": form.description.data}
         )
+        AuditService.log("CREATE", "Symptom", symptom.id, f"Created symptom: {symptom.name}")
         flash(f"Symptom '{symptom.name}' created successfully.", "success")
         return redirect(url_for("expert_system.symptoms_index"))
     return render_template("expert_system/symptoms/create.html", form=form)
@@ -182,6 +189,7 @@ def symptoms_edit(symptom_id: int):
             symptom,
             {"name": form.name.data, "description": form.description.data},
         )
+        AuditService.log("UPDATE", "Symptom", symptom.id, f"Updated symptom: {symptom.name}")
         flash("Symptom updated successfully.", "success")
         return redirect(url_for("expert_system.symptoms_index"))
     return render_template(
@@ -199,7 +207,9 @@ def symptoms_delete(symptom_id: int):
     if symptom is None:
         abort(404)
     if request.method == "POST":
+        symptom_name = symptom.name
         SymptomService.delete(symptom)
+        AuditService.log("DELETE", "Symptom", symptom_id, f"Deleted symptom: {symptom_name}")
         flash("Symptom deleted successfully.", "success")
         return redirect(url_for("expert_system.symptoms_index"))
     return render_template(
@@ -230,6 +240,7 @@ def diseases_create():
                 "category_id": form.category_id.data,
             }
         )
+        AuditService.log("CREATE", "Disease", disease.id, f"Created disease: {disease.name}")
         flash(f"Disease '{disease.name}' created successfully.", "success")
         return redirect(url_for("expert_system.diseases_index"))
     return render_template("expert_system/diseases/create.html", form=form)
@@ -253,6 +264,7 @@ def diseases_edit(disease_id: int):
                 "category_id": form.category_id.data,
             },
         )
+        AuditService.log("UPDATE", "Disease", disease.id, f"Updated disease: {disease.name}")
         flash("Disease updated successfully.", "success")
         return redirect(url_for("expert_system.diseases_index"))
     return render_template(
@@ -270,7 +282,9 @@ def diseases_delete(disease_id: int):
     if disease is None:
         abort(404)
     if request.method == "POST":
+        disease_name = disease.name
         DiseaseService.delete(disease)
+        AuditService.log("DELETE", "Disease", disease_id, f"Deleted disease: {disease_name}")
         flash("Disease deleted successfully.", "success")
         return redirect(url_for("expert_system.diseases_index"))
     return render_template(
@@ -303,6 +317,7 @@ def rules_create():
             },
             symptom_ids=form.symptom_ids.data or [],
         )
+        AuditService.log("CREATE", "Rule", rule.id, f"Created rule: {rule.title}")
         flash(f"Rule '{rule.title}' created successfully.", "success")
         return redirect(url_for("expert_system.rules_index"))
     return render_template("expert_system/rules/create.html", form=form)
@@ -328,6 +343,7 @@ def rules_edit(rule_id: int):
             },
             symptom_ids=form.symptom_ids.data or [],
         )
+        AuditService.log("UPDATE", "Rule", rule.id, f"Updated rule: {rule.title}")
         flash("Rule updated successfully.", "success")
         return redirect(url_for("expert_system.rules_index"))
     return render_template(
@@ -345,7 +361,9 @@ def rules_delete(rule_id: int):
     if rule is None:
         abort(404)
     if request.method == "POST":
+        rule_title = rule.title
         RuleService.delete(rule)
+        AuditService.log("DELETE", "Rule", rule_id, f"Deleted rule: {rule_title}")
         flash("Rule deleted successfully.", "success")
         return redirect(url_for("expert_system.rules_index"))
     return render_template(

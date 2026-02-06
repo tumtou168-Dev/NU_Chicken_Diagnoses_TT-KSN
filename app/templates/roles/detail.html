@@ -1,20 +1,20 @@
 {% extends "layouts/base.html" %}
-{% block title %}Role Detail{% endblock %}
+{% block title %}ព័ត៌មានលម្អិតតួនាទី{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h1 class="h3 mb-0">Role: {{ role.name }}</h1>
+        <h1 class="h3 mb-0">តួនាទី៖ {{ role.name }}</h1>
         <p class="text-muted mb-0">
-            Create: {{ role.create_at }} ▪ Updated: {{ role.updated_at }}
+            បង្កើត៖ {{ role.create_at }} ▪ ធ្វើបច្ចុប្បន្នភាព៖ {{ role.updated_at }}
         </p>
     </div>
     <div class="text-end">
         <a href="{{ url_for('tbl_roles.edit', role_id=role.id) }}" 
-        class="btn btn-danger">Edit</a>
+        class="btn btn-danger">កែប្រែ</a>
         <a href="{{ url_for('tbl_roles.delete_confirm', role_id=role.id) }}"
-        class="btn btn-danger">Delete</a>
-        <a href="{{ url_for('tbl_roles.index') }}" class="btn btn-secondary">Back</a>
+        class="btn btn-danger">លុប</a>
+        <a href="{{ url_for('tbl_roles.index') }}" class="btn btn-secondary">ត្រឡប់ក្រោយ</a>
     </div>
 </div>
 
@@ -23,11 +23,11 @@
     <div class="col-lg-6 mb-3">
         <div class="card">
             <div class="card-header">
-                Role Information
+                ព័ត៌មានតួនាទី
             </div>
             <div class="card-body">
-                <p><strong>Name:</strong>{{ role.name }}</p>
-                <p><strong>Description:</strong>{{ role.description or "-" }}</p>
+                <p><strong>ឈ្មោះ៖</strong>{{ role.name }}</p>
+                <p><strong>ការពិពណ៌នា៖</strong>{{ role.description or "-" }}</p>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="col-lg-6 mb-3">
         <div class="card">
             <div class="card-header">
-                Permissions ({{ role.permissions|length }})
+                សិទ្ធិ ({{ role.permissions|length }})
             </div>
             <div class="card-body">
                 {% if role.permissions %}
@@ -50,7 +50,7 @@
                                 </div>
                                 <a href="{{ url_for('tbl_permissions.detail', permission_id=perm.id) }}" 
                                     class="btn btn-sm btn-outline-primary">
-                                    View
+                                    មើល
                                 </a>
                             </div>
                             {% if perm.description %}
@@ -62,7 +62,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="text-muted mb-0">This role has no permission yet.</p>
+                    <p class="text-muted mb-0">តួនាទីនេះមិនទាន់មានសិទ្ធិនៅឡើយទេ។</p>
                 {% endif %}
             </div>
         </div>

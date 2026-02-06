@@ -1,9 +1,9 @@
 {% extends "layouts/base.html" %}
-{% block title %}Create Disease{% endblock %}
+{% block title %}បង្កើតជំងឺ{% endblock %}
 
 {% block content %}
 <div class="card p-4">
-    <h4 class="mb-3">Create Disease</h4>
+    <h4 class="mb-3">បង្កើតជំងឺ</h4>
     <form method="post">
         {{ form.hidden_tag() }}
         <div class="mb-3">
@@ -39,7 +39,7 @@
         </div>
         <div class="d-flex gap-2">
             {{ form.submit(class="btn btn-brand") }}
-            <a href="{{ url_for('expert_system.diseases_index') }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ url_for('expert_system.diseases_index') }}" class="btn btn-secondary">បោះបង់</a>
         </div>
     </form>
 </div>

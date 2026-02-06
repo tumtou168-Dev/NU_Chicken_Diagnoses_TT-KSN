@@ -1,22 +1,22 @@
 {% extends "layouts/base.html" %}
-{% block title %}Delete Role{% endblock %}
+{% block title %}លុបតួនាទី{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card border-danger">
             <div class="card-header bg-danger text-white">
-                <h5 class="mb-0">Confirm Delete</h5>
+                <h5 class="mb-0">បញ្ជាក់ការលុប</h5>
             </div>
             <div class="card-body">
                 <p>
-                    Are you sure you want to delete role
-                    <strong>{{ role.name }}</strong>?
+                    តើអ្នកប្រាកដថាចង់លុបតួនាទី
+                    <strong>{{ role.name }}</strong> ទេ?
                 </p>
 
                 {% if role.users %}
                 <p class="text-warning small">
-                    This role is currently assigned to {{ role.users|length }} user{{ role.users|length !=1 and 's' or '' }}.
+                    តួនាទីនេះបច្ចុប្បន្នត្រូវបានចាត់តាំងឱ្យ {{ role.users|length }} អ្នកប្រើប្រាស់។
                 </p>
                 {% endif %}
 
@@ -24,11 +24,11 @@
                     {{ form.hidden_tag() }}
 
                     <button type="submit" class="btn btn-danger">
-                        Delete
+                        លុប
                     </button>
                     <a href="{{ url_for('tbl_roles.detail', role_id=role.id) }}" 
                         class="btn btn-secondary">
-                        Cancel
+                        បោះបង់
                         </a>
                 </form>
             </div>
