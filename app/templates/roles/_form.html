@@ -29,7 +29,7 @@
 
     <!-- Permissions -->
     <div class="mb-3">
-        <label class="form-label">Permissions</label>
+        <label class="form-label">សិទ្ធិ</label>
         <div class="border p-3" style="max-height: 300px; overflow-y: auto;">
             {{ form.permission_ids() }}
         </div>
@@ -45,6 +45,6 @@
     <!-- Button -->
     <div class="d-flex justify-content-between mt-3">
         {{ form.submit(class="btn btn-primary") }}
-        <a href="{{ url_for('tbl_roles.index') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ url_for('tbl_roles.index') }}" class="btn btn-secondary">បោះបង់</a>
     </div>
 </form>

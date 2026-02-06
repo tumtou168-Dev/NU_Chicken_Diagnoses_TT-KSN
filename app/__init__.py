@@ -1,17 +1,9 @@
 # app/__init__.py
 import os
-import sys
 from flask import Flask, redirect, url_for
 from config import Config
 from extensions import db, csrf, login_manager
 from app.models.user import UserTable
-try:
-    import oracledb
-
-    oracledb.version = "8.3.0"
-    sys.modules["cx_Oracle"] = oracledb
-except Exception:
-    oracledb = None
 
 
 def create_app(config_class: type[Config] = Config):
@@ -38,12 +30,14 @@ def create_app(config_class: type[Config] = Config):
     from app.routes.permission_routes import permission_bp
     from app.routes.auth_routes import auth_bp
     from app.routes.expert_system import expert_system_bp
+    from app.routes.audit_routes import audit_bp
     
     app.register_blueprint(user_bp)
     app.register_blueprint(role_bp)
     app.register_blueprint(permission_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(expert_system_bp)
+    app.register_blueprint(audit_bp)
     
     @app.route("/")
     def home():
@@ -55,6 +49,7 @@ def create_app(config_class: type[Config] = Config):
         from app.models.role import RoleTable
         from app.models.permission import PermissionTable
         from app.models.expert_system import Category, Symptom, Disease, Rule, Case
+        from app.models.audit_log import AuditLog
 
         # Default RESET_DB to 1 to ensure schema is updated (sequences created)
         if os.environ.get("RESET_DB", "1") == "1":

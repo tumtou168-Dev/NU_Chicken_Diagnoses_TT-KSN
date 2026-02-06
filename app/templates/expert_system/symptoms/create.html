@@ -1,8 +1,8 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Add Symptom{% endblock %}
-{% block page_title %}Add New Symptom{% endblock %}
-{% block page_subtitle %}Define a new symptom for the expert system.{% endblock %}
+{% block title %}បន្ថែមរោគសញ្ញា{% endblock %}
+{% block page_title %}បន្ថែមរោគសញ្ញាថ្មី{% endblock %}
+{% block page_subtitle %}កំណត់រោគសញ្ញាថ្មីសម្រាប់ប្រព័ន្ធជំនាញ។{% endblock %}
 
 {% block content %}
 <div class="row g-4">
@@ -10,23 +10,23 @@
     <div class="col-lg-7">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-header bg-white py-3">
-                <h5 class="mb-0 fw-bold text-muted">Symptom Details</h5>
+                <h5 class="mb-0 fw-bold text-muted">ព័ត៌មានលម្អិតរោគសញ្ញា</h5>
             </div>
             <div class="card-body p-4">
                 <form method="POST" id="symptom-form">
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
-                        <label for="name" class="form-label fw-bold">Symptom Name</label>
-                        {{ form.name(class="form-control form-control-lg", placeholder="e.g., Coughing", **{"data-preview-target": "#preview-name"}) }}
+                        <label for="name" class="form-label fw-bold">ឈ្មោះរោគសញ្ញា</label>
+                        {{ form.name(class="form-control form-control-lg", placeholder="ឧ. ក្អក", **{"data-preview-target": "#preview-name"}) }}
                         {% if form.name.errors %}
                             <div class="text-danger small mt-1">{{ form.name.errors[0] }}</div>
                         {% endif %}
                     </div>
 
                     <div class="mb-4">
-                        <label for="description" class="form-label fw-bold">Description</label>
-                        {{ form.description(class="form-control", placeholder="A brief explanation of the symptom", style="height: 120px", **{"data-preview-target": "#preview-description"}) }}
+                        <label for="description" class="form-label fw-bold">ការពិពណ៌នា</label>
+                        {{ form.description(class="form-control", placeholder="ការពន្យល់សង្ខេបអំពីរោគសញ្ញា", style="height: 120px", **{"data-preview-target": "#preview-description"}) }}
                         {% if form.description.errors %}
                             <div class="text-danger small mt-1">{{ form.description.errors[0] }}</div>
                         {% endif %}
@@ -34,9 +34,9 @@
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary py-2 px-4 fw-bold">
-                            <i class="bi bi-save me-2"></i>Save Symptom
+                            <i class="bi bi-save me-2"></i>រក្សាទុករោគសញ្ញា
                         </button>
-                        <a href="{{ url_for('expert_system.symptoms_index') }}" class="btn btn-light py-2 px-4">Cancel</a>
+                        <a href="{{ url_for('expert_system.symptoms_index') }}" class="btn btn-light py-2 px-4">បោះបង់</a>
                     </div>
                 </form>
             </div>
@@ -49,7 +49,7 @@
             <div class="card border-0 shadow-sm bg-light">
                 <div class="card-header bg-transparent py-3">
                     <h6 class="mb-0 fw-bold text-muted text-uppercase small">
-                        <i class="bi bi-eye me-2"></i>Live Preview
+                        <i class="bi bi-eye me-2"></i>មើលជាមុន
                     </h6>
                 </div>
                 <div class="card-body">
@@ -57,8 +57,8 @@
                         <div class="list-group-item py-3 px-4 border-primary border-2 shadow-sm">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="flex-grow-1">
-                                    <h6 id="preview-name" class="fw-bold mb-1 text-dark">Symptom Name</h6>
-                                    <p id="preview-description" class="text-muted mb-0">Symptom description will appear here.</p>
+                                    <h6 id="preview-name" class="fw-bold mb-1 text-dark">ឈ្មោះរោគសញ្ញា</h6>
+                                    <p id="preview-description" class="text-muted mb-0">ការពិពណ៌នារោគសញ្ញានឹងបង្ហាញនៅទីនេះ។</p>
                                 </div>
                                 <div class="ms-4">
                                     <div class="btn-group">
@@ -85,8 +85,8 @@
                 if (previewElement) {
                     previewElement.textContent = e.target.value || e.target.placeholder;
                     if (!e.target.value) {
-                         if(targetId === '#preview-name') previewElement.textContent = 'Symptom Name';
-                         if(targetId === '#preview-description') previewElement.textContent = 'Symptom description will appear here.';
+                         if(targetId === '#preview-name') previewElement.textContent = 'ឈ្មោះរោគសញ្ញា';
+                         if(targetId === '#preview-description') previewElement.textContent = 'ការពិពណ៌នារោគសញ្ញានឹងបង្ហាញនៅទីនេះ។';
                     }
                 }
             }

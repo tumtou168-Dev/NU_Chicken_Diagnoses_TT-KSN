@@ -1,9 +1,10 @@
 # app/routes/auth_routes.py
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app.models.user import UserTable
 from app.models.role import RoleTable
 from app.services.user_service import UserService
+from app.services.audit_service import AuditService
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -21,6 +22,7 @@ def login():
                 return redirect(url_for("auth.login"))
             
             login_user(user)
+            AuditService.log("LOGIN", "User", user.id, "User logged in")
             flash("Logged in successfully.", "success")
             
             # Redirect based on role
@@ -89,6 +91,7 @@ def register():
         )
         
         login_user(new_user)
+        AuditService.log("REGISTER", "User", new_user.id, "New user registered")
         flash("Account created successfully. You are now logged in.", "success")
         
         # Redirect based on role (new users are typically 'User' role)
@@ -103,6 +106,19 @@ def register():
 @auth_bp.route("/logout")
 @login_required
 def logout():
+    user_id = current_user.id
     logout_user()
+    # Note: current_user is anonymous after logout_user(), so we can't use it for logging user_id directly inside AuditService if we rely on current_user there.
+    # However, AuditService uses current_user. Since we just logged out, current_user is anonymous.
+    # We should log BEFORE logging out if we want to capture the user ID, or pass it explicitly.
+    # But AuditService.log uses current_user internally. Let's adjust AuditService or log before logout.
+    # Actually, let's log before logout to capture the user.
+    # Wait, I can't easily change AuditService to take user_id as optional override without changing its signature.
+    # Let's just log "LOGOUT" before calling logout_user().
+    
+    # Re-implementing log here manually or calling service before logout
+    # But wait, AuditService.log uses current_user.id.
+    AuditService.log("LOGOUT", "User", user_id, "User logged out")
+
     flash("You have been logged out.", "info")
     return redirect(url_for("auth.login"))

@@ -1,47 +1,47 @@
 {% extends "layouts/base.html" %}
-{% block title %}User Detail{% endblock %}
+{% block title %}ព័ត៌មានលម្អិតអ្នកប្រើប្រាស់{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">User: {{ user.username }}</h1>
+    <h1 class="h3 mb-0">អ្នកប្រើប្រាស់៖ {{ user.username }}</h1>
     <div>
         {# Use table_users.edit #}
         <a href="{{ url_for('tbl_users.edit', user_id=user.id) }} "
             class="btn btn-sm btn-outline-secondary">
-            Edit
+            កែប្រែ
         </a>
         {# Use table_users.delete_confirm #}
         <a href="{{ url_for('tbl_users.delete_confirm', user_id=user.id) }} "
             class="btn btn-sm btn-outline-danger">
-            Delete
+            លុប
         </a>
         {# Use table_users.index #}
         <a href="{{ url_for('tbl_users.index') }} "
             class="btn btn-sm btn-outline-primary">
-            Back to list
+            ត្រឡប់ទៅបញ្ជី
         </a>
     </div>
 </div>
 
 <div class="card mb-3">
     <div class="card-body">
-        <p><strong>Username:</strong>{{ user.username }}</p>
-        <p><strong>Full name:</strong>{{ user.full_name }}</p>
-        <p><strong>Email:</strong>{{ user.email }}</p>
+        <p><strong>ឈ្មោះអ្នកប្រើប្រាស់៖</strong>{{ user.username }}</p>
+        <p><strong>ឈ្មោះពេញ៖</strong>{{ user.full_name }}</p>
+        <p><strong>អ៊ីមែល៖</strong>{{ user.email }}</p>
         <p>
-            <strong>Status:</strong>
+            <strong>ស្ថានភាព៖</strong>
             {% if user.is_active %}
-                <span class="badge text-bg-success">Active</span>
+                <span class="badge text-bg-success">សកម្ម</span>
             {% else %}
-                <span class="badge text-bg-secondary">Inactive</span>
+                <span class="badge text-bg-secondary">អសកម្ម</span>
             {% endif %}
         </p>
         <p>
-            <strong>Roles:</strong>
+            <strong>តួនាទី៖</strong>
             {% if user.role %}
                 {{ user.role | map(attribute="name") | join(",")}}
             {% else %}
-                <span class="text-muted">No role</span>
+                <span class="text-muted">គ្មានតួនាទី</span>
             {% endif %}
         </p>
     </div>

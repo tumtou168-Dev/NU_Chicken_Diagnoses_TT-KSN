@@ -4,6 +4,7 @@ from flask_login import login_required
 from app.forms.permission_forms import (PermissionCreateForm, PermissionEditForm,
                                         PermissionConfirmDeleteForm )
 from app.services.permission_service import PermissionService
+from app.services.audit_service import AuditService
 
 permission_bp = Blueprint("tbl_permissions", __name__, url_prefix="/permissions")
 
@@ -34,6 +35,7 @@ def create():
         }
         
         permission = PermissionService.create_permission(data)
+        AuditService.log("CREATE", "Permission", permission.id, f"Created permission: {permission.code}")
         flash(f"Permission '{permission.code}' was created successfully.", "success")
         return redirect(url_for("tbl_permissions.index"))
     
@@ -57,6 +59,7 @@ def edit(permission_id: int):
         }
         
         PermissionService.update_permission(permission, data)
+        AuditService.log("UPDATE", "Permission", permission.id, f"Updated permission: {permission.code}")
         flash(f"Permission '{permission.code}' was updated successfully.", "success")
         return redirect(
             url_for("tbl_permissions.detail", permission_id=permission.id)
@@ -85,6 +88,8 @@ def delete(permission_id: int):
     if permission is None:
         abort(404)
         
+    permission_code = permission.code
     PermissionService.delete_permission(permission)
+    AuditService.log("DELETE", "Permission", permission_id, f"Deleted permission: {permission_code}")
     flash("Permission was deleted successfully.", "success")
     return redirect(url_for("tbl_permissions.index"))
