@@ -197,3 +197,14 @@ h1, h2, h3, h4, h5, .brand-font {
     background-color: #f9fafb;
     border-color: #e5e7eb !important;
 }
+
+/* Footer Styles */
+.hover-white:hover {
+    color: #fff !important;
+}
+.transition-all {
+    transition: all 0.3s ease;
+}
+.ls-1 {
+    letter-spacing: 1px;
+}

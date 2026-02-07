@@ -14,9 +14,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
+<body class="d-flex flex-column min-vh-100">
+    <div class="container-fluid flex-grow-1">
+        <div class="row h-100">
             {% block sidebar %}
             <!-- Sidebar -->
             <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse" id="sidebarMenu">
@@ -100,6 +100,11 @@
                         <div class="nav-section-label">គណនី</div>
                         <ul class="nav flex-column mb-4">
                             <li class="nav-item">
+                                <a class="nav-link {% if 'tbl_users.profile' in request.endpoint %}active{% endif %}" href="{{ url_for('tbl_users.profile') }}">
+                                    <i class="bi bi-person-circle"></i> ប្រវត្តិរូប
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">
                                     <i class="bi bi-box-arrow-right text-danger"></i> ចាកចេញ
                                 </a>
@@ -132,6 +137,7 @@
                         <p class="text-muted mb-0">{% block page_subtitle %}{% endblock %}</p>
                     </div>
 
+                    {% block page_header_content %}
                     {% if current_user.is_authenticated %}
                     <a href="{{ url_for('tbl_users.profile') }}" class="user-profile">
                         <div class="user-avatar">
@@ -143,6 +149,7 @@
                         </div>
                     </a>
                     {% endif %}
+                    {% endblock %}
                 </div>
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -171,6 +178,87 @@
             </main>
         </div>
     </div>
+
+    <!-- Footer -->
+    {% block footer %}
+    <footer class="footer mt-auto py-5 bg-dark text-light border-top border-secondary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9 ms-sm-auto col-lg-10 px-md-5">
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded p-2 me-3">
+                                    <i class="bi bi-clipboard-pulse fs-4"></i>
+                                </div>
+                                <h5 class="text-uppercase fw-bold mb-0 text-white">IDNS</h5>
+                            </div>
+                            <p class="text-secondary small mb-4" style="line-height: 1.6;">
+                                ប្រព័ន្ធជំនាញមាន់ដែលជួយកសិករក្នុងការធ្វើរោគវិនិច្ឆ័យជំងឺមាន់បានយ៉ាងឆាប់រហ័ស និងត្រឹមត្រូវ។ បង្កើនផលិតភាព និងសុខុមាលភាពសត្វចិញ្ចឹមរបស់អ្នកជាមួយយើង។
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="bi bi-telegram"></i></a>
+                                <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="bi bi-youtube"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-6">
+                            <h6 class="text-uppercase fw-bold mb-3 text-white-50 small ls-1">តំណភ្ជាប់</h6>
+                            <ul class="list-unstyled small">
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white transition-all"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i> ទំព័រដើម</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white transition-all"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i> អំពីយើង</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white transition-all"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i> សេវាកម្ម</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white transition-all"><i class="bi bi-chevron-right me-1" style="font-size: 0.7rem;"></i> ជំនួយ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <h6 class="text-uppercase fw-bold mb-3 text-white-50 small ls-1">ទំនាក់ទំនង</h6>
+                            <ul class="list-unstyled small text-secondary">
+                                <li class="mb-3 d-flex">
+                                    <i class="bi bi-geo-alt me-3 text-primary"></i>
+                                    <span>រាជធានីភ្នំពេញ, កម្ពុជា</span>
+                                </li>
+                                <li class="mb-3 d-flex">
+                                    <i class="bi bi-envelope me-3 text-primary"></i>
+                                    <span>info@idns-chicken.com</span>
+                                </li>
+                                <li class="mb-3 d-flex">
+                                    <i class="bi bi-telephone me-3 text-primary"></i>
+                                    <span>+855 12 345 678</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <h6 class="text-uppercase fw-bold mb-3 text-white-50 small ls-1">ព្រឹត្តិបត្រព័ត៌មាន</h6>
+                            <p class="text-secondary small mb-3">ចុះឈ្មោះដើម្បីទទួលបានព័ត៌មានថ្មីៗ។</p>
+                            <form action="#" class="mb-3">
+                                <div class="input-group input-group-sm">
+                                    <input type="email" class="form-control bg-dark border-secondary text-white" placeholder="អ៊ីមែលរបស់អ្នក" aria-label="Email">
+                                    <button class="btn btn-primary" type="button"><i class="bi bi-send"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 border-secondary">
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small">
+                        <div class="text-secondary mb-2 mb-md-0">
+                            &copy; {{ now.year if now else 2024 }} <span class="text-white fw-bold">IDNS</span>. រក្សាសិទ្ធិគ្រប់យ៉ាង.
+                        </div>
+                        <div>
+                            <a href="#" class="text-decoration-none text-secondary me-3 hover-white">គោលការណ៍ឯកជនភាព</a>
+                            <a href="#" class="text-decoration-none text-secondary hover-white">លក្ខខណ្ឌប្រើប្រាស់</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
 
     <!-- Mobile Menu Toggle Button (Visible only on small screens) -->
     {% block mobile_nav_toggle %}

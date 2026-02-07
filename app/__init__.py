@@ -41,7 +41,7 @@ def create_app(config_class: type[Config] = Config):
     
     @app.route("/")
     def home():
-        return redirect(url_for("expert_system.diagnose"))
+        return redirect(url_for("auth.login"))
     
     # create tables
     with app.app_context():
@@ -51,12 +51,15 @@ def create_app(config_class: type[Config] = Config):
         from app.models.expert_system import Category, Symptom, Disease, Rule, Case
         from app.models.audit_log import AuditLog
 
-        # Default RESET_DB to 1 to ensure schema is updated (sequences created)
-        if os.environ.get("RESET_DB", "1") == "1":
+        # Default RESET_DB to 0 to prevent database reset on restart
+        if os.environ.get("RESET_DB", "0") == "1":
             db.drop_all()
 
         db.create_all()
-        from app.services.seed_service import seed_all
-        seed_all()
+        
+        # Only seed if the database is empty (e.g. check if any users exist)
+        if not UserTable.query.first():
+            from app.services.seed_service import seed_all
+            seed_all()
         
     return app
