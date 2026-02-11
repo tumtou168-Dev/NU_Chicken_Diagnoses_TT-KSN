@@ -123,6 +123,8 @@ class RuleService:
             disease_id=data["disease_id"],
         )
         if symptom_ids:
+            # Ensure symptom_ids are integers
+            symptom_ids = [int(sid) for sid in symptom_ids]
             rule.symptoms = Symptom.query.filter(Symptom.id.in_(symptom_ids)).all()
         db.session.add(rule)
         db.session.commit()
@@ -135,7 +137,12 @@ class RuleService:
         rule.priority = data["priority"]
         rule.confidence = data["confidence"]
         rule.disease_id = data["disease_id"]
-        rule.symptoms = Symptom.query.filter(Symptom.id.in_(symptom_ids)).all()
+        if symptom_ids:
+             # Ensure symptom_ids are integers
+            symptom_ids = [int(sid) for sid in symptom_ids]
+            rule.symptoms = Symptom.query.filter(Symptom.id.in_(symptom_ids)).all()
+        else:
+            rule.symptoms = []
         db.session.commit()
         return rule
 

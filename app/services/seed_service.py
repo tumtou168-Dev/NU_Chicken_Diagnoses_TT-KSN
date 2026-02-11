@@ -58,6 +58,7 @@ def seed_permissions_and_roles():
             "manage_rules",
             "manage_categories",
             "view_cases",
+            "run_diagnosis", # Doctor should also be able to run diagnosis
         }
     ]
     user_role.permissions = [p for p in perm_objs if p.code in {"run_diagnosis", "view_cases"}]

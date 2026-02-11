@@ -320,6 +320,11 @@ def rules_create():
         AuditService.log("CREATE", "Rule", rule.id, f"Created rule: {rule.title}")
         flash(f"Rule '{rule.title}' created successfully.", "success")
         return redirect(url_for("expert_system.rules_index"))
+    
+    # If validation fails, print errors to console for debugging
+    if form.errors:
+        print(f"Form validation errors: {form.errors}")
+        
     return render_template("expert_system/rules/create.html", form=form)
 
 
@@ -346,6 +351,11 @@ def rules_edit(rule_id: int):
         AuditService.log("UPDATE", "Rule", rule.id, f"Updated rule: {rule.title}")
         flash("Rule updated successfully.", "success")
         return redirect(url_for("expert_system.rules_index"))
+        
+    # If validation fails, print errors to console for debugging
+    if form.errors:
+        print(f"Form validation errors: {form.errors}")
+
     return render_template(
         "expert_system/rules/edit.html",
         form=form,
