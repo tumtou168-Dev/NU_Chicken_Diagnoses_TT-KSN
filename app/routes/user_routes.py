@@ -15,6 +15,10 @@ user_bp = Blueprint("tbl_users", __name__, url_prefix="/users")
 @user_bp.route("/")
 @login_required
 def index():
+    # Only Admin can view user list
+    if not current_user.has_role("Admin"):
+        abort(403)
+        
     users = UserService.get_user_all()
     return render_template("users/index.html", users=users)
 
@@ -26,6 +30,10 @@ def profile():
 @user_bp.route("/<int:user_id>")
 @login_required
 def detail(user_id: int):
+    # Only Admin can view other user details
+    if not current_user.has_role("Admin") and current_user.id != user_id:
+        abort(403)
+
     user = UserService.get_user_by_id(user_id)
     if user is None:
         abort(404)
@@ -34,6 +42,10 @@ def detail(user_id: int):
 @user_bp.route("/create", methods=["GET", "POST"])
 @login_required
 def create():
+    # Only Admin can create users
+    if not current_user.has_role("Admin"):
+        abort(403)
+
     form = UserCreateForm()
     if form.validate_on_submit():
         data = {
@@ -55,6 +67,11 @@ def create():
 @user_bp.route("/<int:user_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit(user_id: int):
+    # Only Admin can edit other users, users can edit themselves (if implemented, but usually restricted)
+    # For now, let's restrict to Admin or self
+    if not current_user.has_role("Admin") and current_user.id != user_id:
+        abort(403)
+
     user = UserService.get_user_by_id(user_id)
     if user is None:
         abort(404)
@@ -74,7 +91,12 @@ def edit(user_id: int):
         UserService.update_user(user, data, password, role_id)
         AuditService.log("UPDATE", "User", user.id, f"Updated user: {user.username}")
         flash(f"User '{user.username}' was updated successfully.", "success")
-        return redirect(url_for("tbl_users.detail", user_id=user.id))
+        
+        # Redirect logic: Admin -> list, User -> profile or detail
+        if current_user.has_role("Admin"):
+            return redirect(url_for("tbl_users.detail", user_id=user.id))
+        else:
+            return redirect(url_for("tbl_users.profile"))
     
     return render_template("users/edit.html", form=form, user=user)
 
@@ -82,6 +104,14 @@ def edit(user_id: int):
 @user_bp.route("/<int:user_id>/delete", methods=["GET"])
 @login_required
 def delete_confirm(user_id: int):
+    if not current_user.has_role("Admin"):
+        abort(403)
+
+    # Prevent deleting self
+    if current_user.id == user_id:
+        flash("You cannot delete your own account.", "danger")
+        return redirect(url_for("tbl_users.index"))
+
     user = UserService.get_user_by_id(user_id)
     if user is None:
         abort(404)
@@ -93,6 +123,14 @@ def delete_confirm(user_id: int):
 @user_bp.route("/<int:user_id>/delete", methods=["POST"])
 @login_required
 def delete(user_id: int):
+    if not current_user.has_role("Admin"):
+        abort(403)
+
+    # Prevent deleting self
+    if current_user.id == user_id:
+        flash("You cannot delete your own account.", "danger")
+        return redirect(url_for("tbl_users.index"))
+
     user = UserService.get_user_by_id(user_id)
     if user is None:
         abort(404)
